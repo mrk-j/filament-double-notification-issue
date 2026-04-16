@@ -22,29 +22,29 @@ class EditUser extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-Action::make('updateName')
-    ->successNotificationTitle('Name updated!')
-    ->successRedirectUrl(function (Model $record) {
-        return static::getUrl(['record' => $record]);
-    })
-    ->mountUsing(function (Schema $form, Model $record) {
-        $form->fill([
-            'name' => $record->name,
-        ]);
-    })
-    ->schema([
-        Select::make('name')
-            ->searchable()
-            ->options([
-                'Name A' => 'Name A',
-                'Name B' => 'Name B',
-                'Name C' => 'Name C',
-            ]),
-    ])
-    ->action(function (array $data, Model $record) {
-        $record->name = $data['name'];
-        $record->save();
-    }),
+            Action::make('updateName')
+                ->mountUsing(function (Schema $form, Model $record) {
+                    $form->fill([
+                        'name' => $record->name,
+                    ]);
+                })
+                ->schema([
+                    Select::make('name')
+                        ->searchable()
+                        ->options([
+                            'Name A' => 'Name A',
+                            'Name B' => 'Name B',
+                            'Name C' => 'Name C',
+                        ]),
+                ])
+                ->action(function (array $data, Model $record) {
+                    $record->name = $data['name'];
+                    $record->save();
+                })
+                ->successNotificationTitle('Name updated!')
+                ->successRedirectUrl(function (Model $record) {
+                    return static::getUrl(['record' => $record]);
+                }),
             DeleteAction::make(),
         ];
     }
